@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Time Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-200">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-xl w-full transition-colors duration-200">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-600 dark:text-blue-400">Download Time Calculator</h1>
+            
+            <button id="darkModeToggle" class="relative inline-flex items-center justify-center p-1 rounded-full h-10 w-20 bg-gray-200 dark:bg-gray-700 transition-colors duration-300 focus:outline-none">
+                <span class="sr-only">Toggle Dark Mode</span>
+                <span id="darkModeIcon" class="absolute left-1 top-1 w-8 h-8 rounded-full bg-white dark:bg-transparent flex items-center justify-center text-yellow-500 transition-all duration-500 transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </span>
+                <span id="lightModeIcon" class="absolute right-1 top-1 w-8 h-8 rounded-full bg-transparent dark:bg-gray-600 flex items-center justify-center text-gray-400 dark:text-blue-200 transition-all duration-500 transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+        
+        <div class="space-y-6">
+            <div>
+                <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">File Size</label>
+                <div class="flex">
+                    <input type="text" id="fileSize" class="w-full rounded-l-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 p-2.5 border" value="1" inputmode="decimal">
+                    <select id="fileSizeUnit" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-r-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                        <optgroup label="Decimal (Base 10)">
+                            <option value="B">Bytes (B)</option>
+                            <option value="KB">Kilobytes (KB)</option>
+                            <option value="MB" selected>Megabytes (MB)</option>
+                            <option value="GB">Gigabytes (GB)</option>
+                            <option value="TB">Terabytes (TB)</option>
+                            <option value="PB">Petabytes (PB)</option>
+                            <option value="EB">Exabytes (EB)</option>
+                            <option value="ZB">Zettabytes (ZB)</option>
+                        </optgroup>
+                        <optgroup label="Binary (Base 2)">
+                            <option value="KiB">Kibibytes (KiB)</option>
+                            <option value="MiB">Mebibytes (MiB)</option>
+                            <option value="GiB">Gibibytes (GiB)</option>
+                            <option value="TiB">Tebibytes (TiB)</option>
+                            <option value="PiB">Pebibytes (PiB)</option>
+                        </optgroup>
+                        <optgroup label="Bits">
+                            <option value="b">Bits (b)</option>
+                            <option value="Kb">Kilobits (Kb)</option>
+                            <option value="Mb">Megabits (Mb)</option>
+                            <option value="Gb">Gigabits (Gb)</option>
+                            <option value="Tb">Terabits (Tb)</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">Download Speed</label>
+                <div class="flex">
+                    <input type="text" id="downloadSpeed" class="w-full rounded-l-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 p-2.5 border" value="10" inputmode="decimal">
+                    <select id="speedUnit" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-r-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                        <optgroup label="Decimal (Base 10)">
+                            <option value="Bps">Bytes per second (Bps)</option>
+                            <option value="KBps">Kilobytes per second (KBps)</option>
+                            <option value="MBps">Megabytes per second (MBps)</option>
+                            <option value="GBps">Gigabytes per second (GBps)</option>
+                            <option value="TBps">Terabytes per second (TBps)</option>
+                        </optgroup>
+                        <optgroup label="Binary (Base 2)">
+                            <option value="KiBps">Kibibytes per second (KiBps)</option>
+                            <option value="MiBps">Mebibytes per second (MiBps)</option>
+                            <option value="GiBps">Gibibytes per second (GiBps)</option>
+                        </optgroup>
+                        <optgroup label="Bits">
+                            <option value="bps">Bits per second (bps)</option>
+                            <option value="Kbps">Kilobits per second (Kbps)</option>
+                            <option value="Mbps" selected>Megabits per second (Mbps)</option>
+                            <option value="Gbps">Gigabits per second (Gbps)</option>
+                            <option value="Tbps">Terabits per second (Tbps)</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8">
+            <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">Download Time</label>
+            
+            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg transition-colors duration-200">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                    <div class="flex flex-col items-center md:items-start mb-4 md:mb-0">
+                        <span class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 py-4 px-6 bg-white dark:bg-gray-800 rounded-lg shadow-md" id="downloadTimeDefault">00:00:00</span>
+                        <span class="text-sm text-gray-600 dark:text-gray-400 mt-2" id="formatIndicator">Hours, Minutes, Seconds</span>
+                    </div>
+                    <select id="timeDisplayFormat" class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
+                        <option value="default" selected>Hours, Minutes, Seconds</option>
+                        <option value="min_sec">Minutes and Seconds</option>
+                        <option value="hour_per_min">Hours per Minute</option>
+                        <option value="seconds">Seconds</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Hours</option>
+                        <option value="days">Days</option>
+                        <option value="weeks">Weeks</option>
+                        <option value="months">Months</option>
+                        <option value="years">Years</option>
+                        <option value="detailed">Detailed Breakdown</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
